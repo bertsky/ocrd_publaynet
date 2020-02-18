@@ -1,0 +1,3 @@
+ocrd >= 2.4.0
+click >= 7.0
+numpy
