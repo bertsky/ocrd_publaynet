@@ -61,13 +61,13 @@ Options:
 
 ### apply on `PubLayNet`
 
-To apply on the validation subsection:
+To apply on the _validation_ subsection:
 
     ocrd-import-mscoco publaynet/val.json publaynet/val
 
 This will create a METS `publaynet/val/mets.xml` and PAGE files `publaynet/val/*.xml` for all image files.
 
-To apply on the training subsection:
+To apply on the _training_ subsection:
 
     ocrd-import-mscoco publaynet/train.json publaynet/train
 
@@ -79,6 +79,7 @@ Equivalently (including download/extraction if necessary):
 
 > **Note**: PubLayNet itself requires approximately 103 GB of disk space. If you already have it (elsewhere), but still wish to use the Makefile to convert the files, make sure to symlink it here, so it does not get downloaded twice: `ln -s your/path/to/publaynet publaynet`
 
+> **Note**: PubLayNet's `train.json` is 1.6 GB on disk and takes about 10 GB in (resident!) memory to load. Any incremental/stream-based method would be magnitudes slower than plain `json.load()`. Also, MS-COCO cannot be split because it basically defines a (humongous) `annotations` dict with pointers to a (large) `images` dict – sequentially. Another problem is that we cannot parallelize this, since everything needs to be in one final METS file. So this may take days. Just grin and bear it!
 
 ### all Makefile targets
 
