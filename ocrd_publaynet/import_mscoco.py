@@ -66,6 +66,7 @@ def convert(cocofile, directory):
             image = images[annotation['image_id']]
             regions = image.setdefault('regions', list())
             regions.append(annotation)
+        del coco
         LOG.info('Parsing annotations into PAGE-XML')
         for image in images.values():
             page_id = 'p' + str(image['id'])
@@ -91,28 +92,23 @@ def convert(cocofile, directory):
                 category = categories[region['category_id']]
                 region_id = 'r' + str(region['id'])
                 if category == 'text':
-                    region = TextRegionType(id=region_id,
-                                            Coords=coords,
-                                            type=TextTypeSimpleType.PARAGRAPH)
-                    page.add_TextRegion(region)
+                    region_obj = TextRegionType(id=region_id, Coords=coords,
+                                                type=TextTypeSimpleType.PARAGRAPH)
+                    page.add_TextRegion(region_obj)
                 elif category == 'title':
-                    region = TextRegionType(id=region_id,
-                                            Coords=coords,
-                                            type=TextTypeSimpleType.HEADING) # CAPTION?
-                    page.add_TextRegion(region)
+                    region_obj = TextRegionType(id=region_id, Coords=coords,
+                                                type=TextTypeSimpleType.HEADING) # CAPTION?
+                    page.add_TextRegion(region_obj)
                 elif category == 'list':
-                    region = TextRegionType(id=region_id,
-                                            Coords=coords,
-                                            type=TextTypeSimpleType.LISTLABEL) # OTHER?
-                    page.add_TextRegion(region)
+                    region_obj = TextRegionType(id=region_id, Coords=coords,
+                                                type=TextTypeSimpleType.LISTLABEL) # OTHER?
+                    page.add_TextRegion(region_obj)
                 elif category == 'table':
-                    region = TableRegionType(id=region_id,
-                                             Coords=coords)
-                    page.add_TableRegion(region)
+                    region_obj = TableRegionType(id=region_id, Coords=coords)
+                    page.add_TableRegion(region_obj)
                 elif category == 'figure':
-                    region = ImageRegionType(id=region_id,
-                                             Coords=coords)
-                    page.add_ImageRegion(region)
+                    region_obj = ImageRegionType(id=region_id, Coords=coords)
+                    page.add_ImageRegion(region_obj)
                 else:
                     raise Exception('unknown image category: %s' % category)
             page_file = workspace.add_file(
