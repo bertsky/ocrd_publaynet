@@ -93,15 +93,15 @@ def convert(cocofile, directory):
                 region_id = 'r' + str(region['id'])
                 if category == 'text':
                     region_obj = TextRegionType(id=region_id, Coords=coords,
-                                                type=TextTypeSimpleType.PARAGRAPH)
+                                                type_=TextTypeSimpleType.PARAGRAPH)
                     page.add_TextRegion(region_obj)
                 elif category == 'title':
                     region_obj = TextRegionType(id=region_id, Coords=coords,
-                                                type=TextTypeSimpleType.HEADING) # CAPTION?
+                                                type_=TextTypeSimpleType.HEADING) # CAPTION?
                     page.add_TextRegion(region_obj)
                 elif category == 'list':
                     region_obj = TextRegionType(id=region_id, Coords=coords,
-                                                type=TextTypeSimpleType.LISTLABEL) # OTHER?
+                                                type_=TextTypeSimpleType.LISTLABEL) # OTHER?
                     page.add_TextRegion(region_obj)
                 elif category == 'table':
                     region_obj = TableRegionType(id=region_id, Coords=coords)
